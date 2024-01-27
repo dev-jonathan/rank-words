@@ -5,19 +5,21 @@ import nltk
 from collections import defaultdict
 from nltk.stem import RSLPStemmer
 
-# Carregar modelo em português do SpaCy
+# Baixar dados do stemmer RSLP para português e carregar modelo SpaCy
 nltk.download('rslp')
 nlp = spacy.load('pt_core_news_sm')
 stemmer = RSLPStemmer()
 
-# Stopwords personalizadas corrigidas
+# Definir stopwords personalizadas e atualizar no SpaCy
 stopwords = ["troc", "oh", "visse", "ir", "vão", "vamos", "ter", "ficam", "fico", "ia", "ser", "será", "há", "cem", "fazer", "feita", "haver", "pra", "saber", "querer", "poder", "algum"]
 nlp.Defaults.stop_words.update(set(stopwords))
 
+# Função para estematizar uma palavra (reduzi-la à sua raiz)
 def estematizar_palavra(palavra):
     return stemmer.stem(palavra)
 
-lematizadasErradas = {
+# Correções manuais para lematizações
+lematizadasCorrigidas = {
     "ligeirinhos": "ligeiro",
     "tamanquinhos": "tamanco",
     "chove": "chover",
@@ -59,7 +61,7 @@ def extrair_texto_do_pdf(caminho_do_arquivo):
                 texto += texto_pagina + '\n'
     return texto
     
-# Função para processar o texto e extrair informações
+# Função para processar texto, lematizar e estematizar palavras
 def processar_texto(texto, doc_id, dados_por_documento, stopwords_encontradas, dados_estematizados):
     texto = re.sub(r'[^a-záéíóúâêîôûãõç ]', ' ', texto.lower())
     texto = re.sub(r'\s+', ' ', texto).strip()
@@ -70,8 +72,8 @@ def processar_texto(texto, doc_id, dados_por_documento, stopwords_encontradas, d
         stem = estematizar_palavra(token.text)
 
         # Verificar se a palavra está no dicionário de lematizações corrigidas
-        if token.text in lematizadasErradas:
-            lemma = lematizadasErradas[token.text]
+        if token.text in lematizadasCorrigidas:
+            lemma = lematizadasCorrigidas[token.text]
         else:
             lemma = token.lemma_
 
@@ -93,12 +95,12 @@ def analisar_documento(caminho_do_arquivo, doc_id, dados_por_documento, stopword
     texto = extrair_texto_do_pdf(caminho_do_arquivo)
     processar_texto(texto, doc_id, dados_por_documento, stopwords_encontradas, dados_estematizados)
 
-# Inicializando o dicionário para armazenar dados por documento e dados estematizados
+# Inicializando dicionários para armazenar dados processados
 dados_por_documento = defaultdict(lambda: defaultdict(int))
 stopwords_encontradas = set()
 dados_estematizados = defaultdict(lambda: defaultdict(int))
 
-# Processar cada documento
+# Processar cada documento PDF
 for i, caminho in enumerate(caminhos_dos_pdfs):
     analisar_documento(caminho, f'documento{i+1}', dados_por_documento, stopwords_encontradas, dados_estematizados)
 
