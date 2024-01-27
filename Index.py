@@ -1,10 +1,53 @@
 import pdfplumber
 import spacy
 import re
+import nltk
 from collections import defaultdict
+from nltk.stem import RSLPStemmer
 
 # Carregar modelo em português do SpaCy
+nltk.download('rslp')
 nlp = spacy.load('pt_core_news_sm')
+stemmer = RSLPStemmer()
+
+# Stopwords personalizadas corrigidas
+stopwords = ["troc", "oh", "visse", "ir", "vão", "vamos", "ter", "ficam", "fico", "ia", "ser", "será", "há", "cem", "fazer", "feita", "haver", "pra", "saber", "querer", "poder", "algum"]
+nlp.Defaults.stop_words.update(set(stopwords))
+
+def estematizar_palavra(palavra):
+    return stemmer.stem(palavra)
+
+lematizadasErradas = {
+    "ligeirinhos": "ligeiro",
+    "tamanquinhos": "tamanco",
+    "chove": "chover",
+    "caminhos": "caminhar",
+    "manca": "mancar",
+    "madeira": "madeira",
+    "abro": "abrir",
+    "devagarinho": "devagar",
+    "menininho": "menino",
+    "prazenteira": "prazenteiro",
+    "cozinheira": "cozinheiro",
+    "fecho": "fechar",
+    "redonda": "redondar",
+    "brancas": "branco",
+    "amarelas": "amarelo",
+    "borboletas": "borboleta",
+    "alegres": "alegre",
+    "amarelinhas": "amarelo",
+    "bonitinhas": "bonito",
+    "pretas": "preto",
+    "fico": "ficar",
+    "formiga": "formiga",
+    "falasse": "falar",
+    "grandão": "grande"
+}
+
+# Lista dos caminhos dos arquivos PDF
+caminhos_dos_pdfs = ['A_Canção_dos_tamanquinhos_Cecília_Meireles.pdf', 'A_Centopeia_Marina_Colasanti.pdf', 'A_porta_Vinicius_de_Moraes.pdf', 
+                     'Ao_pé_de_sua_criança_Pablo_Neruda.pdf', 'As_borboletas_Vinicius_de_Moraes.pdf', 'Convite_José_Paulo_Paes.pdf', 
+                     'Pontinho_de_Vista_Pedro_Bandeira.pdf']
 
 # Função para extrair texto de um arquivo PDF
 def extrair_texto_do_pdf(caminho_do_arquivo):
@@ -12,44 +55,89 @@ def extrair_texto_do_pdf(caminho_do_arquivo):
         texto = ''
         for pagina in pdf.pages:
             texto_pagina = pagina.extract_text()
-            if texto_pagina:  # Garantindo que a página tenha texto
-                texto += texto_pagina + '\n'  # Adicionando quebra de linha entre as páginas
+            if texto_pagina:
+                texto += texto_pagina + '\n'
     return texto
-
+    
 # Função para processar o texto e extrair informações
-def processar_texto(texto, doc_id, dados_por_documento):
-    # Preprocessamento básico para garantir a separação correta das palavras
+def processar_texto(texto, doc_id, dados_por_documento, stopwords_encontradas, dados_estematizados):
     texto = re.sub(r'[^a-záéíóúâêîôûãõç ]', ' ', texto.lower())
     texto = re.sub(r'\s+', ' ', texto).strip()
 
     doc = nlp(texto)
     for token in doc:
-        if not token.is_stop and token.is_alpha:
+        # Estematização da palavra
+        stem = estematizar_palavra(token.text)
+
+        # Verificar se a palavra está no dicionário de lematizações corrigidas
+        if token.text in lematizadasErradas:
+            lemma = lematizadasErradas[token.text]
+        else:
             lemma = token.lemma_
+
+        # Processar tokens que não são stopwords
+        if token.is_alpha and (not token.is_stop and token.text not in stopwords):
             dados_por_documento[doc_id][lemma] += 1
+            dados_estematizados[doc_id][stem] += 1
+
+            # Opcional: Remover a impressão para reduzir a saída do console
             if token.text != lemma:
-                print(f"Documento: {doc_id}, Palavra original: {token.text}, Lematizada: {lemma}")
+                print(f"Documento: {doc_id}, Palavra original: {token.text}, Lematizada: {lemma}, Estematizada: {stem}")
+
+        # Adicionar à lista de stopwords encontradas
+        elif token.is_stop or token.text in stopwords:
+            stopwords_encontradas.add(token.text)
 
 # Função para analisar um documento PDF
-def analisar_documento(caminho_do_arquivo, doc_id, dados_por_documento):
+def analisar_documento(caminho_do_arquivo, doc_id, dados_por_documento, stopwords_encontradas, dados_estematizados):
     texto = extrair_texto_do_pdf(caminho_do_arquivo)
-    processar_texto(texto, doc_id, dados_por_documento)
+    processar_texto(texto, doc_id, dados_por_documento, stopwords_encontradas, dados_estematizados)
 
-# Inicializando o dicionário para armazenar dados por documento
+# Inicializando o dicionário para armazenar dados por documento e dados estematizados
 dados_por_documento = defaultdict(lambda: defaultdict(int))
-
-# Lista dos caminhos dos arquivos PDF
-caminhos_dos_pdfs = ['A_Canção_dos_tamanquinhos_Cecília_Meireles.pdf', 'A_Centopeia_Marina_Colasanti.pdf', 'A_porta_Vinicius_de_Moraes.pdf', 
-                     'Ao_pé_de_sua_criança_Pablo_Neruda.pdf', 'As_borboletas_Vinicius_de_Moraes.pdf', 'Convite_José_Paulo_Paes.pdf', 
-                     'Pontinho_de_Vista_Pedro_Bandeira.pdf']
+stopwords_encontradas = set()
+dados_estematizados = defaultdict(lambda: defaultdict(int))
 
 # Processar cada documento
 for i, caminho in enumerate(caminhos_dos_pdfs):
-    analisar_documento(caminho, f'documento{i+1}', dados_por_documento)
+    analisar_documento(caminho, f'documento{i+1}', dados_por_documento, stopwords_encontradas, dados_estematizados)
 
-# Exibir dados por documento
+# Exibir stopwords encontradas
+print(f"\nStopwords encontradas: {stopwords_encontradas} \n")
+
+# Calcular frequências totais e detalhadas por documento
+frequencias_totais = defaultdict(int)
 for doc_id, termos in dados_por_documento.items():
-    print(f"---- {doc_id} ----")
     for termo, freq in termos.items():
-        print(f"Termo: {termo}, Frequência: {freq}")
-    print("\n")
+        frequencias_totais[termo] += freq
+
+# Exibir frequências no formato Termo/frequência_no_Corpus -> código_documento/aparições_no_doc
+for termo, freq_total in frequencias_totais.items():
+    detalhes_por_documento = ' '.join([f"{doc_id}/{dados_por_documento[doc_id][termo]}" for doc_id in dados_por_documento if termo in dados_por_documento[doc_id]])
+    print(f"{termo}/{freq_total} -> {detalhes_por_documento}")
+
+
+#============ parte de estimizar com print seguindo Termo/frequência_no_Corpus -> código_documento/aparições_no_doc ==========
+    
+# Inicializando dicionário para armazenar dados estematizados
+# dados_estematizados = defaultdict(lambda: defaultdict(int))
+
+# Processar cada documento
+
+# for i, caminho in enumerate(caminhos_dos_pdfs):
+#     analisar_documento(caminho, f'documento{i+1}', dados_por_documento, stopwords_encontradas, dados_estematizados)
+
+# Função para imprimir as frequências das palavras estematizadas
+# def imprimir_frequencias_estematizadas(dados_estematizados):
+#     frequencias_totais_estematizadas = defaultdict(int)
+#     for doc_id, termos in dados_estematizados.items():
+#         for termo, freq in termos.items():
+#             frequencias_totais_estematizadas[termo] += freq
+
+#     for termo, freq_total in frequencias_totais_estematizadas.items():
+#         detalhes_por_documento = ' '.join([f"{doc_id}/{dados_estematizados[doc_id][termo]}" for doc_id in dados_estematizados if termo in dados_estematizados[doc_id]])
+#         print(f"{termo}/{freq_total} -> {detalhes_por_documento}")
+
+# Chamada à função de impressão das frequências estematizadas
+## print("\nFrequências com Estematizações:")
+## imprimir_frequencias_estematizadas(dados_estematizados)
