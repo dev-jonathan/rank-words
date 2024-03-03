@@ -80,7 +80,7 @@ Documento: documento7, Palavra original: levantado, Lematizada: levantar, Estema
 Documento: documento7, Palavra original: falasse, Lematizada: falar, Estematizada: fal
 Documento: documento7, Palavra original: grandão, Lematizada: grande, Estematizada: grand
 
-Stopwords encontradas: {'com', 'mais', 'nova', 'o', 'pelas', 'tanto', 'ia', 'seu', 'eu', 'dizem', 'há', 'cada', 'troc', 'então', 'quanto', 'dizer', 'cem', 'me', 'primeiro', 'foi', 'será', 'no', 'não', 'teve', 'se', 'os', 'certeza', 'tenho', 'quer', 'ou', 'sem', 'muito', 'sou', 'ficam', 'nossa', 'ainda', 'feita', 'fico', 'novo', 'depois', 'sempre', 'sabe', 'todo', 'até', 'elas', 'uma', 'as', 'e', 'mas', 'quem', 'nada', 'antes', 'sua', 'vão', 'mesmo', 'a', 'dos', 'por', 'minha', 'visse', 'que', 'num', 'algum', 'oh', 'pouco', 'é', 'lá', 'tão', 'só', 'de', 'você', 'têm', 'pode', 'ao', 'ser', 'na', 'novas', 'como', 'são', 'um', 'do', 'vamos', 'pra', 'da', 'tudo', 'bem'} 
+Stopwords encontradas: {'sabe', 'novas', 'um', 'não', 'novo', 'que', 'num', 'certeza', 'pra', 'algum', 'ao', 'quem', 'vamos', 'os', 'do', 'depois', 'uma', 'todo', 'minha', 'até', 'vão', 'me', 'ia', 'da', 'primeiro', 'se', 'mais', 'ainda', 'sempre', 'o', 'nossa', 'tão', 'a', 'tudo', 'ou', 'pode', 'você', 'eu', 'ficam', 'dos', 'dizer', 'bem', 'feita', 'só', 'então', 'cada', 'por', 'cem', 'tanto', 'nova', 'na', 'será', 'sou', 'visse', 'como', 'seu', 'tenho', 'quanto', 'mesmo', 'sua', 'têm', 'nada', 'há', 'pouco', 'quer', 'troc', 'ser', 'fico', 'de', 'antes', 'com', 'oh', 'dizem', 'pelas', 'e', 'as', 'mas', 'no', 'é', 'lá', 'sem', 'teve', 'foi', 'muito', 'são', 'elas'} 
 
 ligeiro/2 -> documento1/2
 cantar/3 -> documento1/3
@@ -188,3 +188,118 @@ formiga/1 -> documento7/1
 falar/1 -> documento7/1
 chão/1 -> documento7/1
 grande/1 -> documento7/1
+Documento: documento1, Palavra original: ligeirinhos, Lematizada: ligeiro, Estematizada: lige
+Documento: documento1, Palavra original: ligeirinhos, Lematizada: ligeiro, Estematizada: lige
+Documento: documento1, Palavra original: cantando, Lematizada: cantar, Estematizada: cant
+Documento: documento1, Palavra original: tamanquinhos, Lematizada: tamanco, Estematizada: tamanc
+Documento: documento1, Palavra original: portas, Lematizada: porta, Estematizada: port
+Documento: documento1, Palavra original: vizinhos, Lematizada: vizinho, Estematizada: vi
+Documento: documento1, Palavra original: batendo, Lematizada: bater, Estematizada: bat
+Documento: documento1, Palavra original: cantando, Lematizada: cantar, Estematizada: cant
+Documento: documento1, Palavra original: tamanquinhos, Lematizada: tamanco, Estematizada: tamanc
+Documento: documento1, Palavra original: chove, Lematizada: chover, Estematizada: chov
+Documento: documento1, Palavra original: caminhos, Lematizada: caminhar, Estematizada: caminh
+Documento: documento1, Palavra original: alagados, Lematizada: alagar, Estematizada: alag
+Documento: documento1, Palavra original: cantando, Lematizada: cantar, Estematizada: cant
+Documento: documento1, Palavra original: tamanquinhos, Lematizada: tamanco, Estematizada: tamanc
+Documento: documento1, Palavra original: sedas, Lematizada: seda, Estematizada: sed
+Documento: documento1, Palavra original: arminhos, Lematizada: arminho, Estematizada: arm
+Documento: documento1, Palavra original: sonham, Lematizada: sonhar, Estematizada: sonh
+Documento: documento1, Palavra original: tamanquinhos, Lematizada: tamanco, Estematizada: tamanc
+Documento: documento2, Palavra original: pés, Lematizada: pé, Estematizada: pé
+Documento: documento2, Palavra original: arranca, Lematizada: arrancar, Estematizada: arranc
+Documento: documento2, Palavra original: bichinha, Lematizada: bichinho, Estematizada: bich
+Documento: documento2, Palavra original: manca, Lematizada: mancar, Estematizada: manc
+Documento: documento2, Palavra original: responda, Lematizada: responder, Estematizada: respond
+Documento: documento2, Palavra original: esqueça, Lematizada: esquecer, Estematizada: esqueç
+Documento: documento2, Palavra original: existe, Lematizada: existir, Estematizada: exist
+Documento: documento2, Palavra original: pés, Lematizada: pé, Estematizada: pé
+Documento: documento2, Palavra original: existe, Lematizada: existir, Estematizada: exist
+Documento: documento2, Palavra original: cabeças, Lematizada: cabeça, Estematizada: cabeç
+Documento: documento3, Palavra original: morta, Lematizada: morto, Estematizada: mort
+Documento: documento3, Palavra original: viva, Lematizada: vivo, Estematizada: viv
+Documento: documento3, Palavra original: abro, Lematizada: abrir, Estematizada: abr
+Documento: documento3, Palavra original: devagarinho, Lematizada: devagar, Estematizada: devag
+Documento: documento3, Palavra original: menininho, Lematizada: menino, Estematizada: menin
+Documento: documento3, Palavra original: abro, Lematizada: abrir, Estematizada: abr
+Documento: documento3, Palavra original: abro, Lematizada: abrir, Estematizada: abr
+Documento: documento3, Palavra original: prazenteira, Lematizada: prazenteiro, Estematizada: prazent
+Documento: documento3, Palavra original: cozinheira, Lematizada: cozinheiro, Estematizada: cozinh
+Documento: documento3, Palavra original: abro, Lematizada: abrir, Estematizada: abr
+Documento: documento3, Palavra original: fecho, Lematizada: fechar, Estematizada: fech
+Documento: documento3, Palavra original: fecho, Lematizada: fechar, Estematizada: fech
+Documento: documento3, Palavra original: fecho, Lematizada: fechar, Estematizada: fech
+Documento: documento3, Palavra original: aberta, Lematizada: abrir, Estematizada: abert
+Documento: documento4, Palavra original: vidros, Lematizada: vidro, Estematizada: vidr
+Documento: documento4, Palavra original: pedras, Lematizada: pedra, Estematizada: pedr
+Documento: documento4, Palavra original: ruas, Lematizada: rua, Estematizada: rua
+Documento: documento4, Palavra original: escadas, Lematizada: escada, Estematizada: esc
+Documento: documento4, Palavra original: caminhos, Lematizada: caminhar, Estematizada: caminh
+Documento: documento4, Palavra original: dura, Lematizada: durar, Estematizada: dur
+Documento: documento4, Palavra original: ensinando, Lematizada: ensinar, Estematizada: ensin
+Documento: documento4, Palavra original: redonda, Lematizada: redondar, Estematizada: redond
+Documento: documento4, Palavra original: derrotado, Lematizada: derrotar, Estematizada: derrot
+Documento: documento4, Palavra original: caiu, Lematizada: cair, Estematizada: caiu
+Documento: documento4, Palavra original: condenado, Lematizada: condenar, Estematizada: conden
+Documento: documento4, Palavra original: conhecendo, Lematizada: conhecer, Estematizada: conhec
+Documento: documento4, Palavra original: encerrado, Lematizada: encerrar, Estematizada: encerr
+Documento: documento4, Palavra original: explorando, Lematizada: explorar, Estematizada: explor
+Documento: documento5, Palavra original: brancas, Lematizada: branco, Estematizada: branc
+Documento: documento5, Palavra original: azuis, Lematizada: azul, Estematizada: azuil
+Documento: documento5, Palavra original: amarelas, Lematizada: amarelo, Estematizada: amarel
+Documento: documento5, Palavra original: pretas, Lematizada: preto, Estematizada: pret
+Documento: documento5, Palavra original: brincam, Lematizada: brincar, Estematizada: brinc
+Documento: documento5, Palavra original: belas, Lematizada: belo, Estematizada: bel
+Documento: documento5, Palavra original: borboletas, Lematizada: borboleta, Estematizada: borbolet
+Documento: documento5, Palavra original: borboletas, Lematizada: borboleta, Estematizada: borbolet
+Documento: documento5, Palavra original: brancas, Lematizada: branco, Estematizada: branc
+Documento: documento5, Palavra original: alegres, Lematizada: alegre, Estematizada: alegr
+Documento: documento5, Palavra original: francas, Lematizada: franco, Estematizada: franc
+Documento: documento5, Palavra original: borboletas, Lematizada: borboleta, Estematizada: borbolet
+Documento: documento5, Palavra original: azuis, Lematizada: azul, Estematizada: azuil
+Documento: documento5, Palavra original: gostam, Lematizada: gostar, Estematizada: gost
+Documento: documento5, Palavra original: amarelinhas, Lematizada: amarelo, Estematizada: amarel
+Documento: documento5, Palavra original: bonitinhas, Lematizada: bonito, Estematizada: bonit
+Documento: documento5, Palavra original: pretas, Lematizada: preto, Estematizada: pret
+Documento: documento6, Palavra original: palavras, Lematizada: palavra, Estematizada: palavr
+Documento: documento6, Palavra original: brinca, Lematizada: brincar, Estematizada: brinc
+Documento: documento6, Palavra original: gastam, Lematizada: gastar, Estematizada: gast
+Documento: documento6, Palavra original: palavras, Lematizada: palavra, Estematizada: palavr
+Documento: documento6, Palavra original: brinca, Lematizada: brincar, Estematizada: brinc
+Documento: documento7, Palavra original: levantado, Lematizada: levantar, Estematizada: levant
+Documento: documento7, Palavra original: falasse, Lematizada: falar, Estematizada: fal
+Documento: documento7, Palavra original: grandão, Lematizada: grande, Estematizada: grand
+
+ ================ MODELO VETORIAL ================
+
+ consulta lematizada ['cantar', 'formiga', 'bicho'] 
+Documentos ordenados por similaridade à consulta (ranqueamento):
+============== RANK ==============
+documento1: Similaridade = 0.5774
+documento2: Similaridade = 0.5774
+documento7: Similaridade = 0.5774
+documento3: Similaridade = 0.0000
+documento4: Similaridade = 0.0000
+documento5: Similaridade = 0.0000
+documento6: Similaridade = 0.0000
+
+Trecho encontrado para 'cantar' em documento1:
+"...irinhos, ligeirinhos,
+troc… troc… troc… troc…
+vão cantando os tamanquinhos…
+Madrugada. Troc… troc…
+p..."
+
+Trecho encontrado para 'bicho' em documento2:
+"...da centopeia?
+Se uma pata você arranca
+será que a bichinha manca?
+E responda antes que eu esqueça
+se..."
+
+Trecho encontrado para 'formiga' em documento7:
+"... olhar todo mundo
+com o queixo levantado.
+Mas, se formiga falasse
+e me visse lá do chão,
+ia dizer, c..."
