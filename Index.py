@@ -9,6 +9,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import TfidfVectorizer
 from math import log10
 import json
+from rank_bm25 import BM25Okapi
 
 # Baixar dados do stemmer RSLP para português e carregar modelo SpaCy
 nltk.download('rslp')
@@ -99,7 +100,7 @@ for termo, freq_total in frequencias_totais.items():
     detalhes_por_documento = ' '.join([f"{doc_id}/{dados_por_documento[doc_id][termo]}" for doc_id in dados_por_documento if termo in dados_por_documento[doc_id]])
     print(f"{termo}/{freq_total} -> {detalhes_por_documento}")
     
-# ==================== MODELO VETORIAL ========================================
+# ==================== parte do MODELO VETORIAL ========================
     
 # Processar cada documento PDF e calcular TF
 for i, caminho in enumerate(caminhos_dos_pdfs):
@@ -226,3 +227,85 @@ def buscar_trechos_por_estematizacao(doc_id, termos_consulta, textos_documentos,
 for doc_id, sim in documentos_ordenados:
     if sim > 0:  # Pula documentos com similaridade igual a zero
         buscar_trechos_por_estematizacao(doc_id, consulta_termos, textos_documentos, stemmer)
+
+## ====================== parte do modelo probabilístico BM25 ===============================
+        
+print(f"\n ================ MODELO PROBABILÍSTICO BM25 ================")
+
+# Consultas de exemplo
+consultas = [
+    ["borboletas", "formiga", "bicho"],  # Aparece em 2 documentos "borboleta"
+    ["pé", "porta"],  # Aparece em 2 documentos tanto "pé" como "porta"
+    ["manca", "papagaio"]
+]
+
+# Preprocessa os textos dos PDFs para extrair e limpar o texto
+tamanhos_dos_textos = []
+for caminho in caminhos_dos_pdfs:
+    texto = extrair_texto_do_pdf(caminho)  # Extrai o texto do PDF
+    # Remove caracteres especiais e converte para minúsculas
+    texto_preprocessado = re.sub(r'[^a-záéíóúâêîôûãõç ]', ' ', texto.lower())
+    texto_preprocessado = re.sub(r'\s+', ' ', texto_preprocessado).strip()
+    tamanhos_dos_textos.append(len(texto_preprocessado.split()))
+
+# Calcula a média dos tamanhos dos textos para análise posterior, se necessário
+media_tamanhos = sum(tamanhos_dos_textos) / len(tamanhos_dos_textos)
+
+# Prepara o corpus para o BM25, processando cada texto para o singular
+corpus = []
+for caminho in caminhos_dos_pdfs:
+    texto = extrair_texto_do_pdf(caminho)  # Repete a extração e limpeza para cada PDF
+    texto_preprocessado = re.sub(r'[^a-záéíóúâêîôûãõç ]', ' ', texto.lower()).strip()
+    corpus.append(texto_preprocessado.split())
+
+# Função para ajustar palavras para o singular, removendo 's' no final
+def ajustar_para_singular(palavras):
+    # Remove 's' no final das palavras, assumindo que são plurais
+    return [palavra[:-1] if palavra.endswith('s') else palavra for palavra in palavras]
+
+# Ajusta o corpus inteiro para singular antes de inicializar o BM25
+corpus_singular = [ajustar_para_singular(texto) for texto in corpus]
+
+# Inicializa o BM25 com o corpus ajustado para o singular
+bm25 = BM25Okapi(corpus_singular, k1=2, b=0.75)
+
+# Define uma função para buscar trechos relevantes nos textos
+def buscar_trecho(texto, termos):
+    trechos_encontrados = []
+    for termo in termos:
+        # Considera termos no singular e no plural na busca
+        termo_singular = termo[:-1] if termo.endswith('s') else termo
+        termo_plural = termo + 's' if not termo.endswith('s') else termo
+        
+        padrao = re.compile(r'\b({}|{})\b'.format(termo_singular, termo_plural), re.IGNORECASE)
+        
+        # Encontra todas as ocorrências do termo no texto
+        matches = padrao.findall(texto)
+        if matches:
+            inicio = texto.lower().find(matches[0].lower())
+            inicio = max(inicio - 30, 0)
+            fim = min(inicio + 60, len(texto))
+            trecho = texto[inicio:fim]
+            trechos_encontrados.append(trecho + "...")
+    
+    # Retorna os trechos encontrados ou uma mensagem padrão
+    return " ... ".join(trechos_encontrados) if trechos_encontrados else "Trecho relevante não encontrado."
+
+# Processa cada consulta, ajustando para singular, calculando scores e exibindo os resultados
+for consulta in consultas:
+    consulta_singular = ajustar_para_singular(consulta)
+    print(f"\nConsulta: [{', '.join(consulta_singular)}]")
+    scores = bm25.get_scores(consulta_singular)
+
+    # Filtra e ordena os documentos com base nos scores
+    scores_e_ids = [(doc_id, score) for doc_id, score in enumerate(scores) if score > 0]
+    scores_e_ids.sort(key=lambda x: x[1], reverse=True)
+
+    # Exibe o ranqueamento dos documentos
+    ranqueamento_str = ', '.join([f"doc{doc_id+1}: {score:.4f}" for doc_id, score in scores_e_ids])
+    print(f"|RANK|: {ranqueamento_str}")
+
+    # Exibe trechos relevantes para cada documento ranqueado
+    for doc_id, score in scores_e_ids:
+        trecho = buscar_trecho(textos_documentos[f'documento{doc_id+1}'], consulta_singular)
+        print(f"Trecho de doc{doc_id+1}: \"...{trecho}\"\n")

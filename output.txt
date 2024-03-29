@@ -80,7 +80,7 @@ Documento: documento7, Palavra original: levantado, Lematizada: levantar, Estema
 Documento: documento7, Palavra original: falasse, Lematizada: falar, Estematizada: fal
 Documento: documento7, Palavra original: grandão, Lematizada: grande, Estematizada: grand
 
-Stopwords encontradas: {'sabe', 'novas', 'um', 'não', 'novo', 'que', 'num', 'certeza', 'pra', 'algum', 'ao', 'quem', 'vamos', 'os', 'do', 'depois', 'uma', 'todo', 'minha', 'até', 'vão', 'me', 'ia', 'da', 'primeiro', 'se', 'mais', 'ainda', 'sempre', 'o', 'nossa', 'tão', 'a', 'tudo', 'ou', 'pode', 'você', 'eu', 'ficam', 'dos', 'dizer', 'bem', 'feita', 'só', 'então', 'cada', 'por', 'cem', 'tanto', 'nova', 'na', 'será', 'sou', 'visse', 'como', 'seu', 'tenho', 'quanto', 'mesmo', 'sua', 'têm', 'nada', 'há', 'pouco', 'quer', 'troc', 'ser', 'fico', 'de', 'antes', 'com', 'oh', 'dizem', 'pelas', 'e', 'as', 'mas', 'no', 'é', 'lá', 'sem', 'teve', 'foi', 'muito', 'são', 'elas'} 
+Stopwords encontradas: {'eu', 'pra', 'vamos', 'troc', 'novo', 'sempre', 'foi', 'não', 'nossa', 'feita', 'uma', 'então', 'de', 'é', 'são', 'um', 'como', 'elas', 'quer', 'dos', 'os', 'do', 'na', 'mas', 'tanto', 'nada', 'mais', 'sua', 'dizem', 'que', 'tudo', 'bem', 'ainda', 'a', 'vão', 'pode', 'ser', 'certeza', 'há', 'no', 'por', 'algum', 'cada', 'me', 'sabe', 'ou', 'muito', 'nova', 'todo', 'as', 'ao', 'quem', 'fico', 'num', 'você', 'têm', 'com', 'oh', 'será', 'sou', 'lá', 'antes', 'primeiro', 'sem', 'novas', 'pouco', 'pelas', 'seu', 'até', 'só', 'ficam', 'se', 'quanto', 'mesmo', 'dizer', 'da', 'o', 'minha', 'cem', 'depois', 'ia', 'visse', 'tenho', 'teve', 'tão', 'e'} 
 
 ligeiro/2 -> documento1/2
 cantar/3 -> documento1/3
@@ -303,3 +303,60 @@ com o queixo levantado.
 Mas, se formiga falasse
 e me visse lá do chão,
 ia dizer, c..."
+
+ ================ MODELO PROBABILÍSTICO BM25 ================
+
+Consulta: [borboleta, formiga, bicho]
+|RANK|: doc7: 1.7766, doc2: 1.6211, doc5: 1.6042, doc4: 0.6147
+Trecho de doc7: "...m o queixo levantado.
+Mas, se formiga falasse
+e me visse lá ..."
+
+Trecho de doc2: "...es que eu esqueça
+se existe o bicho de cem pés
+será que exis..."
+
+Trecho de doc5: "...retas
+Brincam
+Na luz
+As belas
+Borboletas.
+Borboletas brancas..."
+
+Trecho de doc4: "...não sabe que é pé,
+e quer ser borboleta ou maçã.
+Mas depois ..."
+
+
+Consulta: [pé, porta]
+|RANK|: doc4: 1.5070, doc2: 1.2739, doc1: 0.7419, doc3: 0.7068
+Trecho de doc4: "...O pé da criança ainda não sabe que é pé,
+e quer ser borbolet..."
+
+Trecho de doc2: "... ideia
+de contar um por um
+os pés da centopeia?
+Se uma pata ..."
+
+Trecho de doc1: "...
+Madrugada. Troc… troc…
+pelas portas dos vizinhos
+vão batend..."
+
+Trecho de doc3: "...da no mundo
+Mais viva que uma porta
+Eu abro devagarinho
+Pra ..."
+
+
+Consulta: [manca, papagaio]
+|RANK|: doc6: 2.1974, doc2: 1.6211
+Trecho de doc6: "...vras
+como se brinca
+com bola, papagaio, pião.
+Só que
+bola, p..."
+
+Trecho de doc2: "...ê arranca
+será que a bichinha manca?
+E responda antes que eu..."
